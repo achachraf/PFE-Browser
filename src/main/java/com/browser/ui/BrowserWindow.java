@@ -41,10 +41,10 @@ public class BrowserWindow {
         JFXButton goButton = new JFXButton("Go");
 
         // Apply Material Design styling
-        backButton.getStyleClass().add("button-raised");
-        forwardButton.getStyleClass().add("button-raised");
-        refreshButton.getStyleClass().add("button-raised");
-        goButton.getStyleClass().add("button-raised");
+        backButton.getStyleClass().addAll("jfx-button", "button-raised");
+        forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
+        refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
+        goButton.getStyleClass().addAll("jfx-button", "button-raised");
         
         // Set button actions
         backButton.setOnAction(e -> navigateBack());
@@ -121,5 +121,9 @@ public class BrowserWindow {
     
     private void refreshPage() {
         webEngine.reload();
+    }
+
+    public WebEngine getWebEngine() {
+        return webEngine;
     }
 }

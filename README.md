@@ -6,12 +6,13 @@ This project is a simple web browser application built using JavaFX. It provides
 ## Features
 - **JavaFX User Interface**: A responsive and intuitive UI built with JavaFX.
 - **Material Design**: Styled using the JFoenix library for modern components.
+- **Custom Styling**: Buttons include hover effects for a cleaner look.
 - **URL Bar**: Allows users to enter and navigate to web addresses.
 - **Navigation Buttons**: Back, forward, refresh, and home buttons for easy navigation.
 - **WebView Component**: Renders web pages.
 - **Error Handling**: User-friendly notifications for errors such as 404 and SSL issues.
 - **History Management**: Keeps track of visited URLs for easy back and forward navigation.
-- **Tabbed Browsing**: Open and close multiple tabs within the same window.
+- **Tabbed Browsing**: Open and close multiple tabs, add new ones with the "+" tab and see the page title as the tab name.
 
 ## Project Structure
 ```
