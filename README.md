@@ -1,14 +1,13 @@
 # Java Web Browser
 
 ## Overview
-This project is a simple web browser application built using JavaFX. It provides a user-friendly interface for browsing the web, complete with features such as a URL bar, navigation buttons, and support for video playback. The application also includes caching for improved performance, error handling for various scenarios, and history management for easy navigation through previously visited pages.
+This project is a simple web browser application built using JavaFX. It provides a user-friendly interface for browsing the web, complete with a URL bar, navigation buttons, and history management for easy navigation through previously visited pages.
 
 ## Features
 - **JavaFX User Interface**: A responsive and intuitive UI built with JavaFX.
 - **URL Bar**: Allows users to enter and navigate to web addresses.
 - **Navigation Buttons**: Back, forward, refresh, and home buttons for easy navigation.
-- **WebView Component**: Renders web pages and supports video playback.
-- **Caching**: Stores resources to improve loading times and reduce network usage.
+- **WebView Component**: Renders web pages.
 - **Error Handling**: User-friendly notifications for errors such as 404 and SSL issues.
 - **History Management**: Keeps track of visited URLs for easy back and forward navigation.
 
@@ -22,22 +21,12 @@ java-web-browser
 │   │   │       └── browser
 │   │   │           ├── BrowserApp.java
 │   │   │           ├── controller
-│   │   │           │   ├── BrowserController.java
 │   │   │           │   ├── HistoryController.java
 │   │   │           │   └── NavigationController.java
 │   │   │           ├── model
-│   │   │           │   ├── BrowserHistory.java
-│   │   │           │   ├── Bookmark.java
-│   │   │           │   └── WebPage.java
-│   │   │           ├── network
-│   │   │           │   ├── CacheManager.java
-│   │   │           │   ├── HttpClient.java
-│   │   │           │   └── RequestHandler.java
+│   │   │           │   └── BrowserHistory.java
 │   │   │           ├── ui
-│   │   │           │   ├── AddressBar.java
-│   │   │           │   ├── BrowserWindow.java
-│   │   │           │   ├── NavigationToolbar.java
-│   │   │           │   └── TabManager.java
+│   │   │           │   └── BrowserWindow.java
 │   │   │           └── util
 │   │   │               ├── ErrorHandler.java
 │   │   │               └── UrlValidator.java
@@ -55,9 +44,6 @@ java-web-browser
 │       └── java
 │           └── com
 │               └── browser
-│                   ├── BrowserAppTest.java
-│                   ├── network
-│                   │   └── HttpClientTest.java
 │                   └── util
 │                       └── UrlValidatorTest.java
 ├── pom.xml
@@ -74,7 +60,7 @@ java-web-browser
 ## Usage
 - Enter a URL in the address bar and press Enter or click the "Go" button to navigate.
 - Use the navigation buttons to move back and forth through your browsing history.
-- The application supports video playback and will cache resources for faster loading times.
+- The application will load pages entered in the address bar.
 
 ## Contributing
 Contributions are welcome! Please submit a pull request or open an issue for any enhancements or bug fixes.
