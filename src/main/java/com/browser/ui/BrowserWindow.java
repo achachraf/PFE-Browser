@@ -9,8 +9,10 @@ import com.jfoenix.controls.JFXButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
+import java.net.URL;
 
 public class BrowserWindow {
     private BorderPane root;
@@ -23,6 +25,7 @@ public class BrowserWindow {
     private BrowserHistory history;
     private BookmarkManager bookmarkManager;
     private HBox bookmarksBar;
+    private static final String HOME_RESOURCE = "/home.html";
 
     public BrowserWindow() {
         this.history = new BrowserHistory();
@@ -45,16 +48,12 @@ public class BrowserWindow {
         refreshButton = new JFXButton("Refresh");
         addressBar = new TextField();
         JFXButton goButton = new JFXButton("Go");
-        JFXButton addBookmarkButton = new JFXButton("Add Bookmark");
-        JFXButton toggleBookmarkButton = new JFXButton("Toggle Bookmarks");
 
         // Apply Material Design styling
         backButton.getStyleClass().addAll("jfx-button", "button-raised");
         forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
         refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
         goButton.getStyleClass().addAll("jfx-button", "button-raised");
-        addBookmarkButton.getStyleClass().addAll("jfx-button", "button-raised");
-        toggleBookmarkButton.getStyleClass().addAll("jfx-button", "button-raised");
         
         // Set button actions
         backButton.setOnAction(e -> navigateBack());
@@ -63,16 +62,13 @@ public class BrowserWindow {
         goButton.setOnAction(e -> loadUrl());
         addressBar.setOnAction(e -> loadUrl());
 
-        addBookmarkButton.setOnAction(e -> addBookmark());
-        toggleBookmarkButton.setOnAction(e -> toggleBookmarks());
         
         // Set HBox properties for address bar
         HBox.setHgrow(addressBar, javafx.scene.layout.Priority.ALWAYS);
         
         // Add all controls to navigation bar
         navigationBar.getChildren().addAll(
-            backButton, forwardButton, refreshButton, addressBar, goButton,
-            addBookmarkButton, toggleBookmarkButton
+            backButton, forwardButton, refreshButton, addressBar, goButton
         );
         
         // Create WebView for page rendering
@@ -80,12 +76,17 @@ public class BrowserWindow {
         webEngine = webView.getEngine();
         
         updateBookmarksBar();
-        bookmarksBar.setVisible(bookmarkManager.isBarVisible());
+        boolean visible = bookmarkManager.isBarVisible();
+        bookmarksBar.setVisible(visible);
+        bookmarksBar.setManaged(visible);
 
         // Set up the layout
         VBox topContainer = new VBox(navigationBar, bookmarksBar);
         root.setTop(topContainer);
         root.setCenter(webView);
+
+        topContainer.setOnContextMenuRequested(e ->
+            showContextMenu(topContainer, e.getScreenX(), e.getScreenY()));
     }
     
     public BorderPane getRoot() {
@@ -94,6 +95,18 @@ public class BrowserWindow {
     
     public void displayPage(String html) {
         webEngine.loadContent(html);
+    }
+
+    public void showHome() {
+        loadHome();
+        addressBar.clear();
+    }
+
+    private void loadHome() {
+        URL url = getClass().getResource(HOME_RESOURCE);
+        if (url != null) {
+            webEngine.load(url.toExternalForm());
+        }
     }
     
     public void loadPage(String url) {
@@ -174,16 +187,27 @@ public class BrowserWindow {
     private void toggleBookmarks() {
         boolean visible = !bookmarksBar.isVisible();
         bookmarksBar.setVisible(visible);
+        bookmarksBar.setManaged(visible);
         bookmarkManager.setBarVisible(visible);
     }
 
     private void updateBookmarksBar() {
         bookmarksBar.getChildren().clear();
         for (Bookmark b : bookmarkManager.getBookmarks()) {
-            JFXButton btn = new JFXButton(b.getName());
-            btn.getStyleClass().addAll("jfx-button", "button-raised");
+            Button btn = new Button(b.getName());
+            btn.getStyleClass().add("bookmark-button");
             btn.setOnAction(e -> loadPage(b.getUrl()));
             bookmarksBar.getChildren().add(btn);
         }
+    }
+
+    private void showContextMenu(Node parent, double x, double y) {
+        ContextMenu menu = new ContextMenu();
+        MenuItem toggleItem = new MenuItem(bookmarksBar.isVisible() ? "Hide Bookmarks" : "Show Bookmarks");
+        toggleItem.setOnAction(e -> toggleBookmarks());
+        MenuItem addItem = new MenuItem("Add Bookmark");
+        addItem.setOnAction(e -> addBookmark());
+        menu.getItems().addAll(toggleItem, addItem);
+        menu.show(parent, x, y);
     }
 }
