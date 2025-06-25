@@ -2,11 +2,14 @@ package com.browser.ui;
 
 // import com.browser.controller.BrowserController;
 import com.browser.model.BrowserHistory;
+import com.browser.model.Bookmark;
+import com.browser.model.BookmarkManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 
@@ -20,11 +23,14 @@ public class BrowserWindow {
     private WebEngine webEngine;
     // private BrowserController controller;
     private BrowserHistory history;
+    private BookmarkManager bookmarkManager;
+    private HBox bookmarksBar;
 
     public BrowserWindow() {
         initializeUI();
         // this.controller = new BrowserController(this);
         this.history = new BrowserHistory();
+        this.bookmarkManager = new BookmarkManager();
     }
 
     private void initializeUI() {
@@ -33,18 +39,25 @@ public class BrowserWindow {
         // Navigation toolbar (top)
         HBox navigationBar = new HBox(10);
         navigationBar.setPadding(new Insets(10));
+
+        bookmarksBar = new HBox(5);
+        bookmarksBar.setPadding(new Insets(5,10,5,10));
         
         backButton = new JFXButton("Back");
         forwardButton = new JFXButton("Forward");
         refreshButton = new JFXButton("Refresh");
         addressBar = new TextField();
         JFXButton goButton = new JFXButton("Go");
+        JFXButton addBookmarkButton = new JFXButton("Add Bookmark");
+        JFXButton toggleBookmarkButton = new JFXButton("Toggle Bookmarks");
 
         // Apply Material Design styling
         backButton.getStyleClass().addAll("jfx-button", "button-raised");
         forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
         refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
         goButton.getStyleClass().addAll("jfx-button", "button-raised");
+        addBookmarkButton.getStyleClass().addAll("jfx-button", "button-raised");
+        toggleBookmarkButton.getStyleClass().addAll("jfx-button", "button-raised");
         
         // Set button actions
         backButton.setOnAction(e -> navigateBack());
@@ -52,21 +65,29 @@ public class BrowserWindow {
         refreshButton.setOnAction(e -> refreshPage());
         goButton.setOnAction(e -> loadUrl());
         addressBar.setOnAction(e -> loadUrl());
+
+        addBookmarkButton.setOnAction(e -> addBookmark());
+        toggleBookmarkButton.setOnAction(e -> toggleBookmarks());
         
         // Set HBox properties for address bar
         HBox.setHgrow(addressBar, javafx.scene.layout.Priority.ALWAYS);
         
         // Add all controls to navigation bar
         navigationBar.getChildren().addAll(
-            backButton, forwardButton, refreshButton, addressBar, goButton
+            backButton, forwardButton, refreshButton, addressBar, goButton,
+            addBookmarkButton, toggleBookmarkButton
         );
         
         // Create WebView for page rendering
         webView = new WebView();
         webEngine = webView.getEngine();
         
+        updateBookmarksBar();
+        bookmarksBar.setVisible(bookmarkManager.isBarVisible());
+
         // Set up the layout
-        root.setTop(navigationBar);
+        VBox topContainer = new VBox(navigationBar, bookmarksBar);
+        root.setTop(topContainer);
         root.setCenter(webView);
     }
     
@@ -125,5 +146,47 @@ public class BrowserWindow {
 
     public WebEngine getWebEngine() {
         return webEngine;
+    }
+
+    private void addBookmark() {
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setTitle("Add Bookmark");
+        nameDialog.setHeaderText("Bookmark Name");
+        nameDialog.setContentText("Name:");
+        var nameResult = nameDialog.showAndWait();
+        if (nameResult.isEmpty() || nameResult.get().isBlank()) {
+            return;
+        }
+        String defaultUrl = addressBar.getText();
+        TextInputDialog urlDialog = new TextInputDialog(defaultUrl);
+        urlDialog.setTitle("Add Bookmark");
+        urlDialog.setHeaderText("Bookmark URL");
+        urlDialog.setContentText("URL:");
+        var urlResult = urlDialog.showAndWait();
+        if (urlResult.isEmpty() || urlResult.get().isBlank()) {
+            return;
+        }
+        String url = urlResult.get();
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+        bookmarkManager.addBookmark(nameResult.get(), url);
+        updateBookmarksBar();
+    }
+
+    private void toggleBookmarks() {
+        boolean visible = !bookmarksBar.isVisible();
+        bookmarksBar.setVisible(visible);
+        bookmarkManager.setBarVisible(visible);
+    }
+
+    private void updateBookmarksBar() {
+        bookmarksBar.getChildren().clear();
+        for (Bookmark b : bookmarkManager.getBookmarks()) {
+            JFXButton btn = new JFXButton(b.getName());
+            btn.getStyleClass().addAll("jfx-button", "button-raised");
+            btn.setOnAction(e -> loadPage(b.getUrl()));
+            bookmarksBar.getChildren().add(btn);
+        }
     }
 }
