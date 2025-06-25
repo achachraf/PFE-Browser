@@ -14,24 +14,49 @@
     margin: 0;
     background: #f5f5f5;
   }
-  h1 { color: #333; margin-bottom: 20px; }
-  .links { display: flex; gap: 20px; }
-  .links a {
-    padding: 10px 15px;
-    border-radius: 4px;
+  h1 { color: #333; margin-bottom: 30px; }
+  .tiles { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .tile {
+    width: 120px;
+    padding: 10px;
+    text-align: center;
     text-decoration: none;
-    color: white;
-    background: #009688;
+    color: #333;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .links a:hover { background: #00796B; }
+  .tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  .tile img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
+  }
 </style>
 </head>
 <body>
   <h1>Welcome to PFE Browser</h1>
-  <div class="links">
-    <a href="https://www.google.com">Google</a>
-    <a href="https://www.github.com">GitHub</a>
-    <a href="https://stackoverflow.com">Stack Overflow</a>
+  <div class="tiles">
+    <a class="tile" href="https://www.google.com">
+      <img src="https://www.google.com/favicon.ico" alt="Google">
+      <div>Google</div>
+    </a>
+    <a class="tile" href="https://www.github.com">
+      <img src="https://github.githubassets.com/favicons/favicon.png" alt="GitHub">
+      <div>GitHub</div>
+    </a>
+    <a class="tile" href="https://stackoverflow.com">
+      <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico" alt="Stack Overflow">
+      <div>Stack Overflow</div>
+    </a>
+    <a class="tile" href="https://www.wikipedia.org">
+      <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" alt="Wikipedia">
+      <div>Wikipedia</div>
+    </a>
   </div>
 </body>
 </html>
