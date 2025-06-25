@@ -7,3 +7,13 @@
 .jfx-button:hover {
     -fx-background-color: #1976D2;
 }
+
+.bookmark-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-padding: 4 8;
+}
+
+.bookmark-button:hover {
+    -fx-background-color: #e0e0e0;
+}
