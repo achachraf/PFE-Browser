@@ -1,6 +1,5 @@
 package com.browser.ui;
 
-// import com.browser.controller.BrowserController;
 import com.browser.model.BrowserHistory;
 import com.browser.model.Bookmark;
 import com.browser.model.BookmarkManager;
@@ -21,16 +20,14 @@ public class BrowserWindow {
     private JFXButton refreshButton;
     private WebView webView;
     private WebEngine webEngine;
-    // private BrowserController controller;
     private BrowserHistory history;
     private BookmarkManager bookmarkManager;
     private HBox bookmarksBar;
 
     public BrowserWindow() {
-        initializeUI();
-        // this.controller = new BrowserController(this);
         this.history = new BrowserHistory();
         this.bookmarkManager = new BookmarkManager();
+        initializeUI();
     }
 
     private void initializeUI() {
