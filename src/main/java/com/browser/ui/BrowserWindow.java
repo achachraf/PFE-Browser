@@ -4,6 +4,7 @@ package com.browser.ui;
 import com.browser.model.BrowserHistory;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import com.jfoenix.controls.JFXButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
@@ -12,9 +13,9 @@ import javafx.scene.web.WebEngine;
 public class BrowserWindow {
     private BorderPane root;
     private TextField addressBar;
-    private Button backButton;
-    private Button forwardButton;
-    private Button refreshButton;
+    private JFXButton backButton;
+    private JFXButton forwardButton;
+    private JFXButton refreshButton;
     private WebView webView;
     private WebEngine webEngine;
     // private BrowserController controller;
@@ -33,11 +34,17 @@ public class BrowserWindow {
         HBox navigationBar = new HBox(10);
         navigationBar.setPadding(new Insets(10));
         
-        backButton = new Button("Back");
-        forwardButton = new Button("Forward");
-        refreshButton = new Button("Refresh");
+        backButton = new JFXButton("Back");
+        forwardButton = new JFXButton("Forward");
+        refreshButton = new JFXButton("Refresh");
         addressBar = new TextField();
-        Button goButton = new Button("Go");
+        JFXButton goButton = new JFXButton("Go");
+
+        // Apply Material Design styling
+        backButton.getStyleClass().addAll("jfx-button", "button-raised");
+        forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
+        refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
+        goButton.getStyleClass().addAll("jfx-button", "button-raised");
         
         // Set button actions
         backButton.setOnAction(e -> navigateBack());
@@ -114,5 +121,9 @@ public class BrowserWindow {
     
     private void refreshPage() {
         webEngine.reload();
+    }
+
+    public WebEngine getWebEngine() {
+        return webEngine;
     }
 }

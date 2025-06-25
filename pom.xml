@@ -35,6 +35,13 @@
             <artifactId>javafx-media</artifactId>
             <version>${fx.version}</version>
         </dependency>
+
+        <!-- JFoenix for Material Design UI components -->
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.10</version>
+        </dependency>
         <!-- JUnit dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
