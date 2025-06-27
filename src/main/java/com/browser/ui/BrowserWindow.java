@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.net.URL;
 
 public class BrowserWindow {
@@ -39,21 +41,28 @@ public class BrowserWindow {
         // Navigation toolbar (top)
         HBox navigationBar = new HBox(10);
         navigationBar.setPadding(new Insets(10));
+        navigationBar.getStyleClass().add("navigation-bar");
 
         bookmarksBar = new HBox(5);
         bookmarksBar.setPadding(new Insets(5,10,5,10));
         
-        backButton = new JFXButton("Back");
-        forwardButton = new JFXButton("Forward");
-        refreshButton = new JFXButton("Refresh");
+        backButton = new JFXButton();
+        forwardButton = new JFXButton();
+        refreshButton = new JFXButton();
         addressBar = new TextField();
         JFXButton goButton = new JFXButton("Go");
+
+        addressBar.getStyleClass().add("address-bar");
 
         // Apply Material Design styling
         backButton.getStyleClass().addAll("jfx-button", "button-raised");
         forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
         refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
         goButton.getStyleClass().addAll("jfx-button", "button-raised");
+
+        backButton.setGraphic(createIcon("/icons/back.png"));
+        forwardButton.setGraphic(createIcon("/icons/forward.png"));
+        refreshButton.setGraphic(createIcon("/icons/refresh.png"));
         
         // Set button actions
         backButton.setOnAction(e -> navigateBack());
@@ -199,6 +208,13 @@ public class BrowserWindow {
             btn.setOnAction(e -> loadPage(b.getUrl()));
             bookmarksBar.getChildren().add(btn);
         }
+    }
+
+    private ImageView createIcon(String path) {
+        ImageView view = new ImageView(new Image(getClass().getResourceAsStream(path)));
+        view.setFitWidth(18);
+        view.setFitHeight(18);
+        return view;
     }
 
     private void showContextMenu(Node parent, double x, double y) {

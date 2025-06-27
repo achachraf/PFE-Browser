@@ -17,6 +17,7 @@ public class BrowserApp extends Application {
     @Override
     public void start(Stage stage) {
         tabPane = new TabPane();
+        tabPane.getStyleClass().add("tab-pane-custom");
         tabPane.setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
 
         plusTab = new Tab("+");
