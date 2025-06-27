@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
+import java.net.URL;
 
 public class BrowserWindow {
     private BorderPane root;
@@ -24,6 +25,7 @@ public class BrowserWindow {
     private BrowserHistory history;
     private BookmarkManager bookmarkManager;
     private HBox bookmarksBar;
+    private static final String HOME_RESOURCE = "/home.html";
 
     public BrowserWindow() {
         this.history = new BrowserHistory();
@@ -93,6 +95,18 @@ public class BrowserWindow {
     
     public void displayPage(String html) {
         webEngine.loadContent(html);
+    }
+
+    public void showHome() {
+        loadHome();
+        addressBar.clear();
+    }
+
+    private void loadHome() {
+        URL url = getClass().getResource(HOME_RESOURCE);
+        if (url != null) {
+            webEngine.load(url.toExternalForm());
+        }
     }
     
     public void loadPage(String url) {

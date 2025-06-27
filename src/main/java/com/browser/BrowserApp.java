@@ -50,6 +50,8 @@ public class BrowserApp extends Application {
         tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
         tabPane.getSelectionModel().select(tab);
 
+        browserWindow.showHome();
+
         browserWindow.getWebEngine().titleProperty().addListener((obs, oldTitle, newTitle) -> {
             if (newTitle != null && !newTitle.isBlank()) {
                 tab.setText(newTitle);
