@@ -10,6 +10,8 @@ import com.jfoenix.controls.JFXButton;
 import javafx.stage.Stage;
 import com.browser.ui.BrowserWindow;
 
+import java.awt.*;
+
 public class BrowserApp extends Application {
     private TabPane tabPane;
     private Tab plusTab;

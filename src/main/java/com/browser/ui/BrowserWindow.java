@@ -38,27 +38,30 @@ public class BrowserWindow {
     private void initializeUI() {
         root = new BorderPane();
         
+        // Apply CSS stylesheet
+        root.getStylesheets().add(getClass().getResource("/css/browser.css").toExternalForm());
+
         // Navigation toolbar (top)
         HBox navigationBar = new HBox(10);
         navigationBar.setPadding(new Insets(10));
-        navigationBar.getStyleClass().add("navigation-bar");
+        navigationBar.getStyleClass().add("navbar");
 
         bookmarksBar = new HBox(5);
         bookmarksBar.setPadding(new Insets(5,10,5,10));
         
+        // Create buttons with icon-only style
         backButton = new JFXButton();
         forwardButton = new JFXButton();
         refreshButton = new JFXButton();
         addressBar = new TextField();
         JFXButton goButton = new JFXButton("Go");
 
-        addressBar.getStyleClass().add("address-bar");
-
-        // Apply Material Design styling
-        backButton.getStyleClass().addAll("jfx-button", "button-raised");
-        forwardButton.getStyleClass().addAll("jfx-button", "button-raised");
-        refreshButton.getStyleClass().addAll("jfx-button", "button-raised");
-        goButton.getStyleClass().addAll("jfx-button", "button-raised");
+        // Apply our custom styling classes
+        addressBar.getStyleClass().add("url-bar");
+        backButton.getStyleClass().add("nav-icon-button");
+        forwardButton.getStyleClass().add("nav-icon-button");
+        refreshButton.getStyleClass().add("nav-icon-button");
+        goButton.getStyleClass().add("modern-button");
 
         backButton.setGraphic(createIcon("/icons/back.png"));
         forwardButton.setGraphic(createIcon("/icons/forward.png"));
@@ -83,7 +86,8 @@ public class BrowserWindow {
         // Create WebView for page rendering
         webView = new WebView();
         webEngine = webView.getEngine();
-        
+        webView.getStyleClass().add("webview");
+
         updateBookmarksBar();
         boolean visible = bookmarkManager.isBarVisible();
         bookmarksBar.setVisible(visible);

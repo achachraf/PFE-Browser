@@ -31,14 +31,42 @@
     -fx-font-size: 14px;
 }
 
+/* Updated TabPane styling to match navbar from browser.css */
 .tab-pane-custom .tab-header-background {
-    -fx-background-color: #6200EE;
+    -fx-background-color: #4285f4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
 }
 
 .tab-pane-custom .tab {
+    -fx-background-color: transparent;
     -fx-padding: 0.5em 1.2em 0.5em 1.2em;
+}
+
+.tab-pane-custom .tab:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.tab-pane-custom .tab:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
 }
 
 .tab-pane-custom .tab-label {
     -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.tab-pane-custom .tab:selected .tab-label {
+    -fx-font-weight: bold;
+}
+
+.tab-pane-custom .tab-close-button {
+    -fx-background-color: white;
+}
+
+.tab-pane-custom .control-buttons-tab {
+    -fx-background-color: #4285f4;
+}
+
+.tab-pane-custom .focus-indicator {
+    -fx-border-color: transparent;
 }
