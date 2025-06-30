@@ -42,6 +42,7 @@ public class BrowserApp extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
         stage.setTitle("Java Web Browser");
         stage.setScene(scene);
+        stage.setMaximized(true); // Start in maximized window
         stage.show();
     }
 
@@ -57,11 +58,19 @@ public class BrowserApp extends Application {
 
         browserWindow.getWebEngine().titleProperty().addListener((obs, oldTitle, newTitle) -> {
             if (newTitle != null && !newTitle.isBlank()) {
-                tab.setText(newTitle);
+                tab.setText(truncateTitle(newTitle));
             } else {
                 tab.setText("New Tab");
             }
         });
+    }
+
+    private String truncateTitle(String title) {
+        final int MAX_TAB_LENGTH = 25; // Maximum characters for tab title
+        if (title.length() <= MAX_TAB_LENGTH) {
+            return title;
+        }
+        return title.substring(0, MAX_TAB_LENGTH - 3) + "...";
     }
 
     public static void main(String[] args) {

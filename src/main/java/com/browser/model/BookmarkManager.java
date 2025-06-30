@@ -82,6 +82,17 @@ public class BookmarkManager {
         save();
     }
 
+    public void removeBookmark(int index) {
+        if (index >= 0 && index < bookmarks.size()) {
+            bookmarks.remove(index);
+            save();
+        }
+    }
+
+    public boolean isUrlBookmarked(String url) {
+        return bookmarks.stream().anyMatch(bookmark -> bookmark.getUrl().equals(url));
+    }
+
     public boolean isBarVisible() {
         return barVisible;
     }
